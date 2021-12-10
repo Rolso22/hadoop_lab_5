@@ -8,20 +8,21 @@ import akka.http.javadsl.ServerBinding;
 import akka.http.javadsl.model.HttpRequest;
 import akka.http.javadsl.model.HttpResponse;
 import akka.stream.ActorMaterializer;
+import akka.stream.javadsl.Flow;
 
 import java.io.IOException;
 import java.util.concurrent.CompletionStage;
 
 public class StreamApp {
 
-    
+    public StreamApp() {}
 
     public static void main(String[] args) throws IOException {
         ActorSystem system = ActorSystem.create("Routes");
 
         final Http http = Http.get(system);
         final ActorMaterializer materializer = ActorMaterializer.create(system);
-        AkkaApp instance = new AkkaApp();
+        StreamApp instance = new StreamApp();
         final Flow<HttpRequest, HttpResponse, NotUsed> routeFlow =
                 instance.createRoute().flow(system, materializer);
         final CompletionStage<ServerBinding> binding = http.bindAndHandle(
