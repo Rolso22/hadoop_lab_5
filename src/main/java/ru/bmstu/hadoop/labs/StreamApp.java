@@ -29,7 +29,8 @@ public class StreamApp {
 
         final Http http = Http.get(system);
         final ActorMaterializer materializer = ActorMaterializer.create(system);
-        final Flow<HttpRequest, HttpResponse, NotUsed> routeFlow = RouteFlow.getInstanse().createRoute().flow(system, materializer);
+        RouteFlow routeFlow = new RouteFlow(system, materializer);
+        final Flow<HttpRequest, HttpResponse, NotUsed> routeFlow = RouteFlow.createRoute().flow(system, materializer);
         final CompletionStage<ServerBinding> binding = http.bindAndHandle(
                 routeFlow,
                 ConnectHttp.toHost("localhost", DEFAULT_PORT),
