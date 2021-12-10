@@ -24,14 +24,11 @@ import static ru.bmstu.hadoop.labs.Constants.*;
 
 public class StreamApp {
 
-    public StreamApp() {}
-
     public static void main(String[] args) throws IOException {
         ActorSystem system = ActorSystem.create("Routes");
 
         final Http http = Http.get(system);
         final ActorMaterializer materializer = ActorMaterializer.create(system);
-        StreamApp instance = new StreamApp();
         final Flow<HttpRequest, HttpResponse, NotUsed> routeFlow =
                 instance.createRoute().flow(system, materializer);
         final CompletionStage<ServerBinding> binding = http.bindAndHandle(
@@ -43,19 +40,6 @@ public class StreamApp {
         System.in.read();
         binding.thenCompose(ServerBinding::unbind)
                 .thenAccept(unbound -> system.terminate());
-    }
-
-    private Route createRoute() {
-        return route(
-                get(() -> parameter(PACKAGE_ID, (id) -> {
-                    Future<Object> result = Patterns.ask(router, new GetRequest(id), TIME_OUT_MILLIS);
-                    return completeOKWithFuture(result, Jackson.marshaller());
-                })),
-                post(() -> entity(Jackson.unmarshaller(TestPackage.class), msg -> {
-                            router.tell(msg, ActorRef.noSender());
-                            return complete(HAPPY_ANSWER);
-                        })
-                ));
     }
 
 }
