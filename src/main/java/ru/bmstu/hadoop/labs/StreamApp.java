@@ -1,4 +1,7 @@
 package ru.bmstu.hadoop.labs;
 
-public class SreamApp {
+public class StreamApp {
+    public static void main(String[] args) {
+        
+    }
 }
