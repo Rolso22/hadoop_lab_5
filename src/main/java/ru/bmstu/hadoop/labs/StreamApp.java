@@ -7,8 +7,10 @@ import akka.http.javadsl.Http;
 import akka.http.javadsl.ServerBinding;
 import akka.http.javadsl.model.HttpRequest;
 import akka.http.javadsl.model.HttpResponse;
+import akka.http.javadsl.server.Route;
 import akka.stream.ActorMaterializer;
 import akka.stream.javadsl.Flow;
+import scala.concurrent.Future;
 
 import java.io.IOException;
 import java.util.concurrent.CompletionStage;
@@ -36,4 +38,18 @@ public class StreamApp {
         binding.thenCompose(ServerBinding::unbind)
                 .thenAccept(unbound -> system.terminate());
     }
+
+    private Route createRoute() {
+        return route(
+                get(() -> parameter(PACKAGE_ID, (id) -> {
+                    Future<Object> result = Patterns.ask(router, new GetRequest(id), TIME_OUT_MILLIS);
+                    return completeOKWithFuture(result, Jackson.marshaller());
+                })),
+                post(() -> entity(Jackson.unmarshaller(TestPackage.class), msg -> {
+                            router.tell(msg, ActorRef.noSender());
+                            return complete(HAPPY_ANSWER);
+                        })
+                ));
+    }
+
 }
