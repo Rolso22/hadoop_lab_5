@@ -11,6 +11,7 @@ import akka.pattern.Patterns;
 import akka.stream.ActorMaterializer;
 import akka.stream.javadsl.Flow;
 import akka.stream.javadsl.Sink;
+import akka.stream.javadsl.Source;
 import com.sun.xml.internal.ws.util.CompletedFuture;
 import scala.concurrent.Future;
 
@@ -39,11 +40,10 @@ public class RouteFlow {
                 .mapAsync(2, request -> {
                     CompletionStage<Object> result = Patterns.ask(cacheActor, new CacheMessage(request.first(), request.second()), Duration.ofMillis(TIME_OUT_MILLIS));
                     result.thenCompose(answer -> {
-                        if ((Float) answer == DEFAULT_CACHE_NOT_FOUND) {
-                            CompletionStage<Float> res = sendRequests(request);
-                            
-                        } else {
+                        if ((Float) answer != DEFAULT_CACHE_NOT_FOUND) {
                             return CompletableFuture.completedFuture(answer);
+                        } else {
+                            Source<>
                         }
                     })
                 });
