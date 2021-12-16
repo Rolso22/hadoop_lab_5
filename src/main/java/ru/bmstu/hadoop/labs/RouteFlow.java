@@ -23,7 +23,7 @@ public class RouteFlow {
     public Flow<HttpRequest, HttpResponse, NotUsed> createFlow() {
         return Flow.of(HttpRequest.class)
                 .map(request -> {
-                    Pair<String, Integer> pair = new Pair<>(request.getUri()., )
+                    Pair<String, Integer> pair = new Pair<>(request.getUri().query(""), )
                     request.getUri()
                 })
     }
