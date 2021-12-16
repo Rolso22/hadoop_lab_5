@@ -18,11 +18,7 @@ public class CacheActor extends AbstractActor {
 
     private void getResult(CacheMessage request) {
         String url = request.getUrl();
-        if (store.containsKey(url)) {
-            sender().tell(store.get(url), ActorRef.noSender());
-        } else {
-            sender().tell("no cache", ActorRef.noSender());
-        }
+        sender().tell(store.getOrDefault(url, -1), ActorRef.noSender());
     }
 
 }

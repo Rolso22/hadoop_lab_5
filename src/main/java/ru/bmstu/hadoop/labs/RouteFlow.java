@@ -36,7 +36,6 @@ public class RouteFlow {
                 })
                 .mapAsync(2, request -> {
                     Future<Object> result = Patterns.ask(cacheActor, new CacheMessage(request.first(), request.second()), TIME_OUT_MILLIS);
-
                 });
     }
 
