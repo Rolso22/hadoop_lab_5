@@ -4,6 +4,8 @@ import akka.actor.AbstractActor;
 import akka.actor.ActorRef;
 import akka.http.javadsl.model.HttpRequest;
 import akka.japi.pf.ReceiveBuilder;
+import com.sun.xml.internal.ws.util.CompletedFuture;
+
 import java.util.HashMap;
 
 public class CacheActor extends AbstractActor {
@@ -19,6 +21,7 @@ public class CacheActor extends AbstractActor {
     private void getResult(CacheMessage request) {
         String url = request.getUrl();
         if (store.containsKey(url)) {
+            CompletedFuture<Integer> result = new CompletedFuture<>(store.get(url), )
             sender().tell(store.get(url), ActorRef.noSender());
         } else {
             sender().tell("no cache", ActorRef.noSender());
