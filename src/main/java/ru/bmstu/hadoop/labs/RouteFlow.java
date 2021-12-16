@@ -14,7 +14,7 @@ import akka.stream.javadsl.Keep;
 import akka.stream.javadsl.Sink;
 import akka.stream.javadsl.Source;
 import com.sun.xml.internal.ws.util.CompletedFuture;
-import org.asynchttpclient.AsyncHttpClient;
+import org.asynchttpclient.*;
 import static org.asynchttpclient.Dsl.*;
 
 import org.asynchttpclient.Request;
