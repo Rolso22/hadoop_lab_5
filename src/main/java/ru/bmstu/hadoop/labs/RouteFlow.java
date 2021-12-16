@@ -50,9 +50,9 @@ public class RouteFlow {
                             }
                         }))
 
-                .map(responce -> {
-                    cacheActor.tell(new CachePut(responce.first(), responce.second().second(), responce.second().first()), ActorRef.noSender());
-                    return HttpResponse.create().withEntity(URL + responce.first() + "\n" + COUNT + responce.second().first() + "\n" + AVERAGE_TIME + responce.second().second());
+                .map(response -> {
+                    cacheActor.tell(new CachePut(response.first(), response.second().second(), response.second().first()), ActorRef.noSender());
+                    return HttpResponse.create().withEntity(URL + response.first() + "\n" + COUNT + response.second().first() + "\n" + AVERAGE_TIME + response.second().second());
                 });
     }
 
