@@ -61,7 +61,7 @@ public class RouteFlow {
                 })
                 .map(responce -> {
                     cacheActor.tell(new CacheMessage(responce.first(), responce.second()), ActorRef.noSender());
-                    return HttpResponse.create();
+                    return HttpResponse.create().withEntity("url: " + responce.first() + "\n" + "average time: " + responce.second()).withStatus(1);
                 });
     }
 
