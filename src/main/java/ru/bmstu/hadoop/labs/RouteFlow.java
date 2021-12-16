@@ -52,7 +52,7 @@ public class RouteFlow {
                 });
     }
 
-    private Sink<>
+    private Sink<Pair<String, Integer>, CompletionStage<Long>> testSink
 
 
 }
