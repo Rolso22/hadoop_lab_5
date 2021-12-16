@@ -14,17 +14,8 @@ public class CacheActor extends AbstractActor {
     @Override
     public Receive createReceive() {
         return ReceiveBuilder.create()
-                .match(String.class, this::getResult)
-                .match(CacheMessage.class, this::saveResult)
+                .match(String.class, url -> sender().tell(store.getOrDefault(url, DEFAULT_CACHE_NOT_FOUND), ActorRef.noSender()))
+                .match(CacheMessage.class, result -> store.put(result.getUrl(), result.getResult()))
                 .build();
     }
-
-    private void getResult(String url) {
-        sender().tell(store.getOrDefault(url, DEFAULT_CACHE_NOT_FOUND), ActorRef.noSender());
-    }
-
-    private void saveResult(CacheMessage result) {
-        
-    }
-
 }

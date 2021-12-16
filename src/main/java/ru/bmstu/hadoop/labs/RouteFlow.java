@@ -37,7 +37,7 @@ public class RouteFlow {
     public RouteFlow(ActorSystem system, ActorMaterializer materializer) {
         this.system = system;
         this.materializer = materializer;
-        cacheActor = system.actorOf(Props.create(ActorSystem.class));
+        cacheActor = system.actorOf(Props.create(CacheActor.class));
     }
 
     public Flow<HttpRequest, HttpResponse, NotUsed> createFlow() {
@@ -47,21 +47,21 @@ public class RouteFlow {
                             Integer.parseInt(request.getUri().query().get(TEST_COUNT).get()));
                 })
                 .mapAsync(2, request -> {
-                    CompletionStage<Object> result = Patterns.ask(cacheActor, request.first(), Duration.ofMillis(TIME_OUT_MILLIS))
+                    return Patterns.ask(cacheActor, request.first(), Duration.ofMillis(TIME_OUT_MILLIS))
                             .thenCompose(answer -> {
                                 if ((Float) answer != DEFAULT_CACHE_NOT_FOUND) {
-                                    return CompletableFuture.completedFuture(answer);
+                                    return CompletableFuture.completedFuture(new Pair<>(request.first(), (Float) answer));
                                 } else {
                                     return Source.from(Collections.singletonList(request))
                                             .toMat(testSink(request), Keep.right())
                                             .run(materializer)
-                                            .thenCompose(time -> CompletableFuture.completedFuture(time / request.second()));
+                                            .thenCompose(time -> CompletableFuture.completedFuture(new Pair<>(request.first(), ((float) time / request.second()))));
                                 }
                             });
-                    return result;
                 })
                 .map(responce -> {
-                    Patterns.ask(cacheActor, new CacheMessage())
+                    cacheActor.tell(new CacheMessage(responce.first(), responce.second()), ActorRef.noSender());
+                    
                 });
     }
 
