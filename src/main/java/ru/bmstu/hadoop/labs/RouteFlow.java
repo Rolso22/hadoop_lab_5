@@ -57,7 +57,7 @@ public class RouteFlow {
                                     .run(materializer)
                                     .thenCompose(time -> CompletableFuture.completedFuture(time / request.second()));
                         }
-                    })
+                    });
                 });
     }
 
