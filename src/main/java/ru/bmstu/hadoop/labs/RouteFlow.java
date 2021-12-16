@@ -42,11 +42,11 @@ public class RouteFlow {
 
     public Flow<HttpRequest, HttpResponse, NotUsed> createFlow() {
         return Flow.of(HttpRequest.class)
-                .map(request -> {
-                    return new Pair<String, Integer>(request.getUri().query().get(TEST_URL).get(),
-                            Integer.parseInt(request.getUri().query().get(TEST_COUNT).get()));
-                })
-                .mapAsync(2, request -> {
+
+                .map(request -> new Pair<String, Integer>(request.getUri().query().get(TEST_URL).get(),
+                        Integer.parseInt(request.getUri().query().get(TEST_COUNT).get())))
+
+                .mapAsync(DEFAULT_THREADS, request -> {
                     return Patterns.ask(cacheActor, request.first(), Duration.ofMillis(TIME_OUT_MILLIS))
                             .thenCompose(answer -> {
                                 if ((Float) answer != DEFAULT_CACHE_NOT_FOUND) {
@@ -59,6 +59,7 @@ public class RouteFlow {
                                 }
                             });
                 })
+
                 .map(responce -> {
                     cacheActor.tell(new CacheMessage(responce.first(), responce.second()), ActorRef.noSender());
                     return HttpResponse.create().withEntity("url: " + responce.first() + "\n" + "average time: " + responce.second()).withStatus(1);

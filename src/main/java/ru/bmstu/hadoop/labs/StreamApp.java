@@ -33,5 +33,4 @@ public class StreamApp {
         binding.thenCompose(ServerBinding::unbind)
                 .thenAccept(unbound -> system.terminate());
     }
-
 }

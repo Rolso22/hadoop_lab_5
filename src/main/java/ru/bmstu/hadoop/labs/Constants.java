@@ -8,5 +8,5 @@ public class Constants {
     public static String TEST_URL = "testUrl";
     public static String TEST_COUNT = "count";
     public static float DEFAULT_CACHE_NOT_FOUND = -1;
-
+    public static int DEFAULT_THREADS = 2;
 }
