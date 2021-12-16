@@ -48,7 +48,7 @@ public class RouteFlow {
                 })
                 .mapAsync(2, request -> {
                     CompletionStage<Object> result = Patterns.ask(cacheActor, new CacheMessage(request.first(), request.second()), Duration.ofMillis(TIME_OUT_MILLIS));
-                    result.thenCompose(answer -> {
+                    return result.thenCompose(answer -> {
                         if ((Float) answer != DEFAULT_CACHE_NOT_FOUND) {
                             return CompletableFuture.completedFuture(answer);
                         } else {
