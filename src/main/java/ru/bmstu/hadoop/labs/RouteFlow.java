@@ -10,12 +10,14 @@ import akka.japi.Pair;
 import akka.pattern.Patterns;
 import akka.stream.ActorMaterializer;
 import akka.stream.javadsl.Flow;
+import akka.stream.javadsl.Keep;
 import akka.stream.javadsl.Sink;
 import akka.stream.javadsl.Source;
 import com.sun.xml.internal.ws.util.CompletedFuture;
 import scala.concurrent.Future;
 
 import java.time.Duration;
+import java.util.Collections;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.CompletionStage;
 import static ru.bmstu.hadoop.labs.Constants.*;
@@ -43,15 +45,14 @@ public class RouteFlow {
                         if ((Float) answer != DEFAULT_CACHE_NOT_FOUND) {
                             return CompletableFuture.completedFuture(answer);
                         } else {
-                            Source<>
+                            Source.from(Collections.singletonList(request))
+                                    .toMat(testSink, Keep.right()).run(materializer);
                         }
                     })
                 });
     }
 
-    private CompletionStage<Float> sendRequests(Pair<String, Integer> path) {
-
-    }
+    private Sink<>
 
 
 }
