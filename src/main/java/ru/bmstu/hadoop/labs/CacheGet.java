@@ -1,2 +1,4 @@
-package ru.bmstu.hadoop.labs;public class CacheGet {
+package ru.bmstu.hadoop.labs;
+
+public class CacheGet {
 }
