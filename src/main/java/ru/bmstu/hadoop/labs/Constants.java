@@ -7,6 +7,8 @@ public class Constants {
     public static String SERVER_ONLINE = "Server online at http://localhost:";
     public static String TEST_URL = "testUrl";
     public static String TEST_COUNT = "count";
+    public static String URL = "url: ";
+    public static String AVERAGE_TIME = "average time: ";
     public static float DEFAULT_CACHE_NOT_FOUND = -1;
     public static int DEFAULT_THREADS = 2;
 }
