@@ -55,7 +55,8 @@ public class RouteFlow {
 
     private Sink<Pair<String, Integer>, CompletionStage<Long>> testSink(Pair<String, Integer> req) {
         return Flow.<Pair<String, Integer>>create()
-                .mapConcat(mes -> Collections.nCopies(req.second()))
+                .mapConcat(mes -> Collections.nCopies(req.second(), req.first()))
+                .mapAsync()
     }
 
 
