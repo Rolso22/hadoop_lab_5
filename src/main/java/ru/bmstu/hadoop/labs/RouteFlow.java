@@ -15,6 +15,7 @@ import akka.stream.javadsl.Sink;
 import akka.stream.javadsl.Source;
 import com.sun.xml.internal.ws.util.CompletedFuture;
 import org.asynchttpclient.AsyncHttpClient;
+import static org.asynchttpclient.Dsl.*;
 import scala.concurrent.Future;
 
 import java.time.Duration;
@@ -58,7 +59,7 @@ public class RouteFlow {
         return Flow.<Pair<String, Integer>>create()
                 .mapConcat(mes -> Collections.nCopies(req.second(), req.first()))
                 .mapAsync(req.second(), this::sendRequests)
-                .toMat()
+                .toMat();
     }
 
     private CompletableFuture<Long> sendRequests(String url) {
