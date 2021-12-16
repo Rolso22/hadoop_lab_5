@@ -56,8 +56,7 @@ public class RouteFlow {
                                     .toMat(testSink(request), Keep.right())
                                     .run(materializer)
                                     .thenCompose(time -> {
-                                        CompletionStage CompletableFuture.completedFuture(time / request.second());
-
+                                        return CompletableFuture.completedFuture(time / request.second());
                                     });
                         }
                     });
