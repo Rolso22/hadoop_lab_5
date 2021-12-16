@@ -9,7 +9,7 @@ import java.util.HashMap;
 import static ru.bmstu.hadoop.labs.Constants.*;
 
 public class CacheActor extends AbstractActor {
-    HashMap<String, Integer> store = new HashMap<>();
+    HashMap<String, Float> store = new HashMap<>();
 
     @Override
     public Receive createReceive() {
