@@ -2,7 +2,6 @@ package ru.bmstu.hadoop.labs;
 
 public class CacheMessage {
     private String url;
-    private int count;
     private float result;
 
     public CacheMessage(String url, float result) {
