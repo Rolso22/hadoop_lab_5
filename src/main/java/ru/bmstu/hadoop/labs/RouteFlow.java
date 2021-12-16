@@ -15,7 +15,6 @@ import akka.stream.javadsl.Sink;
 import akka.stream.javadsl.Source;
 import org.asynchttpclient.*;
 import static org.asynchttpclient.Dsl.*;
-import org.asynchttpclient.Response;
 
 import java.time.Duration;
 import java.util.Collections;
