@@ -48,18 +48,17 @@ public class RouteFlow {
                 })
                 .mapAsync(2, request -> {
                     CompletionStage<Object> result = Patterns.ask(cacheActor, new CacheMessage(request.first(), request.second()), Duration.ofMillis(TIME_OUT_MILLIS));
-                    return result.thenCompose(answer -> {
+                    result.thenCompose(answer -> {
                         if ((Float) answer != DEFAULT_CACHE_NOT_FOUND) {
                             return CompletableFuture.completedFuture(answer);
                         } else {
                             Source.from(Collections.singletonList(request))
                                     .toMat(testSink(request), Keep.right())
                                     .run(materializer)
-                                    .thenCompose(time -> {
-                                        return CompletableFuture.completedFuture(time / request.second());
-                                    });
+                                    .thenCompose(time -> CompletableFuture.completedFuture(time / request.second()));
                         }
                     });
+                    return result;
                 });
     }
 
