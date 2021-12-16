@@ -46,13 +46,15 @@ public class RouteFlow {
                             return CompletableFuture.completedFuture(answer);
                         } else {
                             Source.from(Collections.singletonList(request))
-                                    .toMat(testSink, Keep.right()).run(materializer);
+                                    .toMat(testSink(request), Keep.right()).run(materializer);
                         }
                     })
                 });
     }
 
-    private Sink<Pair<String, Integer>, CompletionStage<Long>> testSink
+    private Sink<Pair<String, Integer>, CompletionStage<Long>> testSink(Pair<String, Integer> request) {
+        
+    }
 
 
 }
