@@ -52,7 +52,7 @@ public class RouteFlow {
 
                 .map(response -> {
                     cacheActor.tell(new CachePut(response.first(), response.second().second(), response.second().first()), ActorRef.noSender());
-                    return HttpResponse.create().withEntity(URL + response.first() + "\n" + COUNT + response.second().first() + "\n" + AVERAGE_TIME + response.second().second());
+                    return HttpResponse.create().withEntity(URL + response.first() + COUNT + response.second().first() + AVERAGE_TIME + response.second().second());
                 });
     }
 
