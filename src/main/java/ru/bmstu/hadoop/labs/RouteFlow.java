@@ -14,6 +14,7 @@ import akka.stream.javadsl.Keep;
 import akka.stream.javadsl.Sink;
 import akka.stream.javadsl.Source;
 import com.sun.xml.internal.ws.util.CompletedFuture;
+import org.asynchttpclient.AsyncHttpClient;
 import scala.concurrent.Future;
 
 import java.time.Duration;
@@ -61,6 +62,7 @@ public class RouteFlow {
     }
 
     private CompletableFuture<Long> sendRequests(String url) {
+        AsyncHttpClient asyncHttpClient = asyncHttpClient();
         
     }
 
