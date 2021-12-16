@@ -24,9 +24,13 @@ public class RouteFlow {
     public Flow<HttpRequest, HttpResponse, NotUsed> createFlow() {
         return Flow.of(HttpRequest.class)
                 .map(request -> {
-                    Pair<String, Integer> pair = new Pair<String, Integer>(request.getUri().query().get(TEST_URL).toString(), request.getUri().query().get(TEST_COUNT).;
-                    request.getUri()
+                    Pair<String, Integer> pair = new Pair<String, Integer>(request.getUri().query().get(TEST_URL).get(),
+                            Integer.parseInt(request.getUri().query().get(TEST_COUNT).get()));
+                    return pair;
                 })
+                .mapAsync(request -> {
+                    
+                });
     }
 
 }
