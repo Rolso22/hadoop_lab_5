@@ -53,7 +53,9 @@ public class RouteFlow {
                             return CompletableFuture.completedFuture(answer);
                         } else {
                             Source.from(Collections.singletonList(request))
-                                    .toMat(testSink(request), Keep.right()).run(materializer);
+                                    .toMat(testSink(request), Keep.right())
+                                    .run(materializer)
+                                    .thenCompose()
                         }
                     })
                 });
