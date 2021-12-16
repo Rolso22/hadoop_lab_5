@@ -40,7 +40,8 @@ public class RouteFlow {
                     CompletionStage<Object> result = Patterns.ask(cacheActor, new CacheMessage(request.first(), request.second()), Duration.ofMillis(TIME_OUT_MILLIS));
                     result.thenCompose(answer -> {
                         if ((Float) answer == DEFAULT_CACHE_NOT_FOUND) {
-                            return sendRequests(request);
+                            CompletionStage<Float> res = sendRequests(request);
+                            return 
                         } else {
                             return CompletableFuture.completedFuture(answer);
                         }
