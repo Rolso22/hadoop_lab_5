@@ -61,7 +61,7 @@ public class RouteFlow {
                     return result;
                 })
                 .map(responce -> {
-                    Patterns.ask(cacheActor, )
+                    Patterns.ask(cacheActor, new CacheMessage())
                 });
     }
 

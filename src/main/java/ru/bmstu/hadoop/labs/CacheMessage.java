@@ -1,8 +1,9 @@
 package ru.bmstu.hadoop.labs;
 
 public class CacheMessage {
-    private final String url;
-    private final int count;
+    private String url;
+    private int count;
+    private float result;
 
     public CacheMessage(String url, int count) {
         this.url = url;
@@ -15,5 +16,13 @@ public class CacheMessage {
 
     public int getCount() {
         return count;
+    }
+
+    public float getResult() {
+        return result;
+    }
+
+    public void setResult(float result) {
+        this.result = result;
     }
 }
