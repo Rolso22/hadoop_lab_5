@@ -24,6 +24,7 @@ import scala.concurrent.Future;
 import java.time.Duration;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Date;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.CompletionStage;
 import static ru.bmstu.hadoop.labs.Constants.*;
@@ -67,9 +68,9 @@ public class RouteFlow {
 
     private CompletableFuture<Long> sendRequests(String url) {
         AsyncHttpClient asyncHttpClient = asyncHttpClient();
-        
+        Date start = new Date();
         ListenableFuture<Response> whenResponse = asyncHttpClient.prepareGet(url).execute();
-
+        
     }
 
 }
