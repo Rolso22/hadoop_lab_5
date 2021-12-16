@@ -6,6 +6,8 @@ import akka.http.javadsl.model.HttpRequest;
 import akka.japi.pf.ReceiveBuilder;
 import java.util.HashMap;
 
+import static ru.bmstu.hadoop.labs.Constants.*;
+
 public class CacheActor extends AbstractActor {
     HashMap<String, Integer> store = new HashMap<>();
 
@@ -18,7 +20,7 @@ public class CacheActor extends AbstractActor {
 
     private void getResult(CacheMessage request) {
         String url = request.getUrl();
-        sender().tell(store.getOrDefault(url, -1), ActorRef.noSender());
+        sender().tell(store.getOrDefault(url, DEFAULT_CACHE_NOT_FOUND), ActorRef.noSender());
     }
 
 }
