@@ -35,24 +35,24 @@ public class RouteFlow {
     public Flow<HttpRequest, HttpResponse, NotUsed> createFlow() {
         return Flow.of(HttpRequest.class)
 
-                .map(request -> new Pair<String, Integer>(request.getUri().query().get(TEST_URL).get(),
+                .map(request -> new Pair<>(request.getUri().query().get(TEST_URL).get(),
                         Integer.parseInt(request.getUri().query().get(TEST_COUNT).get())))
 
-                .mapAsync(DEFAULT_THREADS, request -> Patterns.ask(cacheActor, request.first(), Duration.ofMillis(TIME_OUT_MILLIS))
+                .mapAsync(DEFAULT_THREADS, request -> Patterns.ask(cacheActor, new CacheGet(request.first(), request.second()), Duration.ofMillis(TIME_OUT_MILLIS))
                         .thenCompose(answer -> {
                             if ((Float) answer != DEFAULT_CACHE_NOT_FOUND) {
-                                return CompletableFuture.completedFuture(new Pair<>(request.first(), (Float) answer));
+                                return CompletableFuture.completedFuture(new Pair<>(request.first(), new Pair<>(request.second(), (Float) answer)));
                             } else {
                                 return Source.from(Collections.singletonList(request))
                                         .toMat(testSink(request), Keep.right())
                                         .run(materializer)
-                                        .thenCompose(time -> CompletableFuture.completedFuture(new Pair<>(request.first(), ((float) time / request.second()))));
+                                        .thenCompose(time -> CompletableFuture.completedFuture(new Pair<>(request.first(), new Pair<>(request.second(), ((float) time / request.second())))));
                             }
                         }))
 
                 .map(responce -> {
-                    cacheActor.tell(new CacheMessage(responce.first(), responce.second()), ActorRef.noSender());
-                    return HttpResponse.create().withEntity(URL + responce.first() + "\n" + AVERAGE_TIME + responce.second());
+                    cacheActor.tell(new CachePut(responce.first(), responce.second().second(), responce.second().first()), ActorRef.noSender());
+                    return HttpResponse.create().withEntity(URL + responce.first() + "\n" + COUNT + responce.second().first() + "\n" + AVERAGE_TIME + responce.second().second());
                 });
     }
 

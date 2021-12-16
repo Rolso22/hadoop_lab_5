@@ -1,12 +1,14 @@
 package ru.bmstu.hadoop.labs;
 
-public class CacheMessage {
-    private String url;
-    private float result;
+public class CachePut {
+    private final String url;
+    private final float result;
+    private final int count;
 
-    public CacheMessage(String url, float result) {
+    public CachePut(String url, float result, int count) {
         this.url = url;
         this.result = result;
+        this.count = count;
     }
 
     public String getUrl() {
@@ -15,5 +17,9 @@ public class CacheMessage {
 
     public float getResult() {
         return result;
+    }
+
+    public int getCount() {
+        return count;
     }
 }

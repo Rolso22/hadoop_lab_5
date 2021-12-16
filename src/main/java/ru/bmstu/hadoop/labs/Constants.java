@@ -9,6 +9,7 @@ public class Constants {
     public static String TEST_COUNT = "count";
     public static String URL = "url: ";
     public static String AVERAGE_TIME = "average time: ";
+    public static String COUNT = "for tests amount: ";
     public static float DEFAULT_CACHE_NOT_FOUND = -1;
     public static int DEFAULT_THREADS = 5;
 }
