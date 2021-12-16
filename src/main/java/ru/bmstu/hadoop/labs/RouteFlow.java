@@ -12,6 +12,7 @@ import akka.stream.ActorMaterializer;
 import akka.stream.javadsl.Flow;
 import akka.stream.javadsl.Sink;
 import com.sun.xml.internal.ws.util.CompletedFuture;
+import scala.concurrent.Future;
 
 import java.util.concurrent.CompletionStage;
 import static ru.bmstu.hadoop.labs.Constants.*;
@@ -34,7 +35,7 @@ public class RouteFlow {
                             Integer.parseInt(request.getUri().query().get(TEST_COUNT).get()));
                 })
                 .mapAsync(2, request -> {
-                    CompletedFuture<String> result = Patterns.ask(cacheActor, )
+                    Future<Object> result = Patterns.ask(cacheActor, new CacheMessage(request.first(), request.second()), TIME_OUT_MILLIS);
                 });
     }
 
