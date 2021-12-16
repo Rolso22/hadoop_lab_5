@@ -14,6 +14,7 @@ import akka.stream.javadsl.Sink;
 import com.sun.xml.internal.ws.util.CompletedFuture;
 import scala.concurrent.Future;
 
+import java.time.Duration;
 import java.util.concurrent.CompletionStage;
 import static ru.bmstu.hadoop.labs.Constants.*;
 
@@ -35,8 +36,8 @@ public class RouteFlow {
                             Integer.parseInt(request.getUri().query().get(TEST_COUNT).get()));
                 })
                 .mapAsync(2, request -> {
-                    Patterns.ask(cacheActor, new CacheMessage(request.first(), request.second()), )
-
+                    CompletionStage<Object> result = Patterns.ask(cacheActor, new CacheMessage(request.first(), request.second()), Duration.ofMillis(TIME_OUT_MILLIS));
+                    
                 });
     }
 
