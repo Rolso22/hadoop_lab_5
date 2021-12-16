@@ -31,8 +31,8 @@ import static ru.bmstu.hadoop.labs.Constants.*;
 
 public class RouteFlow {
     private ActorSystem system;
-    private ActorMaterializer materializer;
-    private ActorRef cacheActor;
+    private final ActorMaterializer materializer;
+    private final ActorRef cacheActor;
 
     public RouteFlow(ActorSystem system, ActorMaterializer materializer) {
         this.system = system;
