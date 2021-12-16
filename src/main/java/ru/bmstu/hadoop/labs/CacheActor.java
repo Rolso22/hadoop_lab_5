@@ -22,7 +22,7 @@ public class CacheActor extends AbstractActor {
     private void getResult(CacheMessage request) {
         String url = request.getUrl();
         if (store.containsKey(url)) {
-            CompletedFuture<Integer> result = new CompletedFuture<>(store.get(url), )
+            CompletedFuture<Integer> result = 
             sender().tell(store.get(url), ActorRef.noSender());
         } else {
             sender().tell("no cache", ActorRef.noSender());
