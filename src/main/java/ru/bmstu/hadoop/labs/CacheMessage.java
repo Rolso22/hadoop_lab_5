@@ -5,24 +5,16 @@ public class CacheMessage {
     private int count;
     private float result;
 
-    public CacheMessage(String url, int count) {
+    public CacheMessage(String url, float result) {
         this.url = url;
-        this.count = count;
+        this.result = result;
     }
 
     public String getUrl() {
         return url;
     }
 
-    public int getCount() {
-        return count;
-    }
-
     public float getResult() {
         return result;
-    }
-
-    public void setResult(float result) {
-        this.result = result;
     }
 }

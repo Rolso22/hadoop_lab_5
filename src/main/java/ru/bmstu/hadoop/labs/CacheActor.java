@@ -14,13 +14,17 @@ public class CacheActor extends AbstractActor {
     @Override
     public Receive createReceive() {
         return ReceiveBuilder.create()
-                .match(CacheMessage.class, this::getResult)
+                .match(String.class, this::getResult)
+                .match(CacheMessage.class, this::saveResult)
                 .build();
     }
 
-    private void getResult(CacheMessage request) {
-        String url = request.getUrl();
+    private void getResult(String url) {
         sender().tell(store.getOrDefault(url, DEFAULT_CACHE_NOT_FOUND), ActorRef.noSender());
+    }
+
+    private void saveResult(CacheMessage result) {
+        
     }
 
 }
