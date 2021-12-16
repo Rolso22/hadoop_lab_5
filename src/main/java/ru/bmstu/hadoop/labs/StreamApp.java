@@ -25,7 +25,7 @@ public class StreamApp {
         final Flow<HttpRequest, HttpResponse, NotUsed> routeFlow = route.createFlow();
         final CompletionStage<ServerBinding> binding = http.bindAndHandle(
                 routeFlow,
-                ConnectHttp.toHost("localhost", DEFAULT_PORT),
+                ConnectHttp.toHost(DEFAULT_HOST, DEFAULT_PORT),
                 materializer
         );
         System.out.println(SERVER_ONLINE + DEFAULT_PORT);
