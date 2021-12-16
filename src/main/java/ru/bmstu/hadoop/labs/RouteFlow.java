@@ -60,7 +60,9 @@ public class RouteFlow {
                             });
                     return result;
                 })
-                .map();
+                .map(responce -> {
+                    Patterns.ask(cacheActor, )
+                });
     }
 
     private Sink<Pair<String, Integer>, CompletionStage<Long>> testSink(Pair<String, Integer> req) {
