@@ -10,6 +10,7 @@ import akka.stream.javadsl.Flow;
 import akka.stream.javadsl.Sink;
 
 import java.util.concurrent.CompletionStage;
+import static ru.bmstu.hadoop.labs.Constants.*;
 
 public class RouteFlow {
     private ActorSystem system;
@@ -23,7 +24,7 @@ public class RouteFlow {
     public Flow<HttpRequest, HttpResponse, NotUsed> createFlow() {
         return Flow.of(HttpRequest.class)
                 .map(request -> {
-                    Pair<String, Integer> pair = new Pair<>(request.getUri().query().get(), )
+                    Pair<String, Integer> pair = new Pair<>(request.getUri().query().get(TEST_URL), request.getUri().query().get())
                     request.getUri()
                 })
     }
