@@ -5,6 +5,6 @@ public class Constants {
     public static int DEFAULT_PORT = 8080;
     public static String DEFAULT_HOST = "localhost";
     public static String SERVER_ONLINE = "Server online at http://localhost:";
-    public static String  = "";
+    public static String TEST_URL = "TestUrl";
 
 }
