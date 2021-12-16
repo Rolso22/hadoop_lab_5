@@ -67,7 +67,9 @@ public class RouteFlow {
 
     private CompletableFuture<Long> sendRequests(String url) {
         AsyncHttpClient asyncHttpClient = asyncHttpClient();
-        Future<Response> whenResponse = asyncHttpClient.prepareGet(url).execute();
+        
+        ListenableFuture<Response> whenResponse = asyncHttpClient.prepareGet(url).execute();
+
     }
 
 }
