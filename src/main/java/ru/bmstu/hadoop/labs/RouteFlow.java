@@ -55,7 +55,7 @@ public class RouteFlow {
                             Source.from(Collections.singletonList(request))
                                     .toMat(testSink(request), Keep.right())
                                     .run(materializer)
-                                    .thenCompose()
+                                    .thenCompose(time -> CompletableFuture.completedFuture(time / request.second()));
                         }
                     })
                 });
