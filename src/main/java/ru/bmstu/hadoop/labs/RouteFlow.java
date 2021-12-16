@@ -28,8 +28,8 @@ public class RouteFlow {
                             Integer.parseInt(request.getUri().query().get(TEST_COUNT).get()));
                     return pair;
                 })
-                .mapAsync(request -> {
-                    
+                .mapAsync(2, request -> {
+
                 });
     }
 
