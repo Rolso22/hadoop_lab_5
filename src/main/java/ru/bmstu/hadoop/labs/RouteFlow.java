@@ -35,7 +35,7 @@ public class RouteFlow {
                             Integer.parseInt(request.getUri().query().get(TEST_COUNT).get()));
                 })
                 .mapAsync(2, request -> {
-                    Future<Object> result = Patterns.ask(cacheActor, new CacheMessage(request.first(), request.second()), TIME_OUT_MILLIS);
+                    Patterns.ask(cacheActor, new CacheMessage(request.first(), request.second()), TIME_OUT_MILLIS)
 
                 });
     }
