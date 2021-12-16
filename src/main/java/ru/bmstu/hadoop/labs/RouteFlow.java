@@ -60,7 +60,7 @@ public class RouteFlow {
                             });
                     return result;
                 })
-                .toMat();
+                .map();
     }
 
     private Sink<Pair<String, Integer>, CompletionStage<Long>> testSink(Pair<String, Integer> req) {
