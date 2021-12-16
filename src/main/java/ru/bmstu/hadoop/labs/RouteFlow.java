@@ -63,7 +63,7 @@ public class RouteFlow {
         return Flow.<Pair<String, Integer>>create()
                 .mapConcat(mes -> Collections.nCopies(req.second(), req.first()))
                 .mapAsync(req.second(), this::sendRequests)
-                .toMat();
+                .toMat(Sink.fold(0, ()));
     }
 
     private CompletableFuture<Long> sendRequests(String url) {
