@@ -41,7 +41,7 @@ public class RouteFlow {
                     result.thenCompose(answer -> {
                         if ((Float) answer == DEFAULT_CACHE_NOT_FOUND) {
                             CompletionStage<Float> res = sendRequests(request);
-                            return 
+                            
                         } else {
                             return CompletableFuture.completedFuture(answer);
                         }
