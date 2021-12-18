@@ -73,12 +73,11 @@ public class RouteFlow {
     private CompletableFuture<Long> sendRequests(String url) throws ExecutionException, InterruptedException {
         AsyncHttpClient asyncHttpClient = asyncHttpClient();
         long start = new Date().getTime();
-        long end = 0;
-        Future<Response> result = asyncHttpClient.prepareGet(url).execute();
-        System.out.println("HERE");
-        Response res = result.get();
-        System.out.println("HERE2");
-        return CompletableFuture.completedFuture(end - start);
+        CompletableFuture<Response> result = asyncHttpClient.prepareGet(url).execute().toCompletableFuture();
+        return result.thenCompose(response -> {
+            long end = new Date().getTime();
+            return CompletableFuture.completedFuture(end - start);
+        });
     }
 
 }
