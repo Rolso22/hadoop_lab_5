@@ -54,12 +54,11 @@ public class RouteFlow {
                 .thenCompose(answer -> {
                     if ((Float) answer != DEFAULT_CACHE_NOT_FOUND) {
                         return CompletableFuture.completedFuture(new Pair<>(request.first(), new Pair<>(request.second(), (Float) answer)));
-                    } else {
-                        return Source.from(Collections.singletonList(request))
-                                .toMat(testSink(request), Keep.right())
-                                .run(materializer)
-                                .thenCompose(time -> CompletableFuture.completedFuture(new Pair<>(request.first(), new Pair<>(request.second(), ((float) time / request.second())))));
                     }
+                    return Source.from(Collections.singletonList(request))
+                            .toMat(testSink(request), Keep.right())
+                            .run(materializer)
+                            .thenCompose(time -> CompletableFuture.completedFuture(new Pair<>(request.first(), new Pair<>(request.second(), ((float) time / request.second())))));
                 });
     }
 
@@ -70,7 +69,7 @@ public class RouteFlow {
                 .toMat(Sink.fold(0L, Long::sum), Keep.right());
     }
 
-    private CompletableFuture<Long> sendRequests(String url) throws ExecutionException, InterruptedException {
+    private CompletableFuture<Long> sendRequests(String url) {
         AsyncHttpClient asyncHttpClient = asyncHttpClient();
         long start = new Date().getTime();
         System.out.println("HERE");
