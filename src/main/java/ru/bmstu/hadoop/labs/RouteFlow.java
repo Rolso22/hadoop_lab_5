@@ -21,6 +21,9 @@ import java.util.Collections;
 import java.util.Date;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.CompletionStage;
+import java.util.concurrent.ExecutionException;
+import java.util.concurrent.Future;
+
 import static ru.bmstu.hadoop.labs.Constants.*;
 
 public class RouteFlow {
@@ -67,11 +70,14 @@ public class RouteFlow {
                 .toMat(Sink.fold(0L, Long::sum), Keep.right());
     }
 
-    private CompletableFuture<Long> sendRequests(String url) {
+    private CompletableFuture<Long> sendRequests(String url) throws ExecutionException, InterruptedException {
         AsyncHttpClient asyncHttpClient = asyncHttpClient();
         long start = new Date().getTime();
-        asyncHttpClient.prepareGet(url).execute();
-        long end = new Date().getTime();
+        long end = 0;
+        Future<Response> result = asyncHttpClient.prepareGet(url).execute();
+        System.out.println("HERE");
+        Response res = result.get();
+        System.out.println("HERE2");
         return CompletableFuture.completedFuture(end - start);
     }
 
