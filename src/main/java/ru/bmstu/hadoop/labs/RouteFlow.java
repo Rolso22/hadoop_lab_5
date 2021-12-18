@@ -54,11 +54,12 @@ public class RouteFlow {
                 .thenCompose(answer -> {
                     if ((Float) answer != DEFAULT_CACHE_NOT_FOUND) {
                         return CompletableFuture.completedFuture(new Pair<>(request.first(), new Pair<>(request.second(), (Float) answer)));
+                    } else {
+                        return Source.from(Collections.singletonList(request))
+                                .toMat(testSink(request), Keep.right())
+                                .run(materializer)
+                                .thenCompose(time -> CompletableFuture.completedFuture(new Pair<>(request.first(), new Pair<>(request.second(), ((float) time / request.second())))));
                     }
-                    return Source.from(Collections.singletonList(request))
-                            .toMat(testSink(request), Keep.right())
-                            .run(materializer)
-                            .thenCompose(time -> CompletableFuture.completedFuture(new Pair<>(request.first(), new Pair<>(request.second(), ((float) time / request.second())))));
                 });
     }
 
@@ -72,14 +73,12 @@ public class RouteFlow {
     private CompletableFuture<Long> sendRequests(String url) {
         AsyncHttpClient asyncHttpClient = asyncHttpClient();
         long start = new Date().getTime();
-        System.out.println("HERE");
         CompletableFuture<Response> result = asyncHttpClient.prepareGet(url).execute().toCompletableFuture();
-        return CompletableFuture.completedFuture(new Date().getTime() - start);
-//        return result.thenCompose(response -> {
-//            System.out.println("HERE2");
-//            long end = new Date().getTime();
-//            return CompletableFuture.completedFuture(end - start);
-//        });
+        return result.thenCompose(response -> {
+            System.out.println("HERE2");
+            long end = new Date().getTime();
+            return CompletableFuture.completedFuture(end - start);
+        });
     }
 
 }
