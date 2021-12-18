@@ -74,7 +74,9 @@ public class RouteFlow {
         AsyncHttpClient asyncHttpClient = asyncHttpClient();
         long start = new Date().getTime();
         CompletableFuture<Response> result = asyncHttpClient.prepareGet(url).execute().toCompletableFuture();
+        System.out.println("HERE");
         return result.thenCompose(response -> {
+            System.out.println("HERE2");
             long end = new Date().getTime();
             return CompletableFuture.completedFuture(end - start);
         });
