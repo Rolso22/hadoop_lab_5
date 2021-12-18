@@ -38,21 +38,25 @@ public class RouteFlow {
                 .map(request -> new Pair<>(request.getUri().query().get(TEST_URL).get(),
                         Integer.parseInt(request.getUri().query().get(TEST_COUNT).get())))
 
-                .mapAsync(DEFAULT_THREADS, request -> Patterns.ask(cacheActor, new CacheGet(request.first(), request.second()), Duration.ofMillis(TIME_OUT_MILLIS))
-                        .thenCompose(answer -> {
-                            if ((Float) answer != DEFAULT_CACHE_NOT_FOUND) {
-                                return CompletableFuture.completedFuture(new Pair<>(request.first(), new Pair<>(request.second(), (Float) answer)));
-                            } else {
-                                return Source.from(Collections.singletonList(request))
-                                        .toMat(testSink(request), Keep.right())
-                                        .run(materializer)
-                                        .thenCompose(time -> CompletableFuture.completedFuture(new Pair<>(request.first(), new Pair<>(request.second(), ((float) time / request.second())))));
-                            }
-                        }))
+                .mapAsync(DEFAULT_THREADS, this::getAverageTime)
 
                 .map(response -> {
                     cacheActor.tell(new CachePut(response.first(), response.second().second(), response.second().first()), ActorRef.noSender());
                     return HttpResponse.create().withEntity(URL + response.first() + COUNT + response.second().first() + AVERAGE_TIME + response.second().second());
+                });
+    }
+
+    private CompletionStage<Pair<String, Pair<Integer, Float>>> getAverageTime(Pair<String, Integer> request) {
+        return Patterns.ask(cacheActor, new CacheGet(request.first(), request.second()), Duration.ofMillis(TIME_OUT_MILLIS))
+                .thenCompose(answer -> {
+                    if ((Float) answer != DEFAULT_CACHE_NOT_FOUND) {
+                        return CompletableFuture.completedFuture(new Pair<>(request.first(), new Pair<>(request.second(), (Float) answer)));
+                    } else {
+                        return Source.from(Collections.singletonList(request))
+                                .toMat(testSink(request), Keep.right())
+                                .run(materializer)
+                                .thenCompose(time -> CompletableFuture.completedFuture(new Pair<>(request.first(), new Pair<>(request.second(), ((float) time / request.second())))));
+                    }
                 });
     }
 
