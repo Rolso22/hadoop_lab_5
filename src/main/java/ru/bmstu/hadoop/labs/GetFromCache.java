@@ -1,10 +1,10 @@
 package ru.bmstu.hadoop.labs;
 
-public class CacheGet {
+public class GetFromCache {
     private final String url;
     private final int count;
 
-    public CacheGet(String url, int count) {
+    public GetFromCache(String url, int count) {
         this.url = url;
         this.count = count;
     }

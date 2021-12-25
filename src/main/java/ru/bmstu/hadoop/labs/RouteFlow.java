@@ -42,13 +42,13 @@ public class RouteFlow {
                 .mapAsync(DEFAULT_THREADS, this::getAverageTime)
 
                 .map(response -> {
-                    cacheActor.tell(new CachePut(response.first(), response.second().second(), response.second().first()), ActorRef.noSender());
+                    cacheActor.tell(new PutToCache(response.first(), response.second().second(), response.second().first()), ActorRef.noSender());
                     return HttpResponse.create().withEntity(URL + response.first() + COUNT + response.second().first() + AVERAGE_TIME + response.second().second());
                 });
     }
 
     private CompletionStage<Pair<String, Pair<Integer, Float>>> getAverageTime(Pair<String, Integer> request) {
-        return Patterns.ask(cacheActor, new CacheGet(request.first(), request.second()), Duration.ofMillis(TIME_OUT_MILLIS))
+        return Patterns.ask(cacheActor, new GetFromCache(request.first(), request.second()), Duration.ofMillis(TIME_OUT_MILLIS))
                 .thenCompose(answerFromCache -> {
                     if ((Float) answerFromCache != DEFAULT_CACHE_NOT_FOUND) {
                         return CompletableFuture.completedFuture(new Pair<>(request.first(), new Pair<>(request.second(), (Float) answerFromCache)));
