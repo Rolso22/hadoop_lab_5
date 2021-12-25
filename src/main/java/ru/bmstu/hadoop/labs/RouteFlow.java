@@ -14,6 +14,9 @@ import akka.stream.javadsl.Keep;
 import akka.stream.javadsl.Sink;
 import akka.stream.javadsl.Source;
 import org.asynchttpclient.*;
+import ru.bmstu.hadoop.labs.Messages.GetFromCache;
+import ru.bmstu.hadoop.labs.Messages.PutToCache;
+
 import static org.asynchttpclient.Dsl.*;
 
 import java.time.Duration;

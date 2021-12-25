@@ -5,6 +5,8 @@ import akka.actor.ActorRef;
 import akka.japi.pf.ReceiveBuilder;
 import java.util.HashMap;
 import akka.japi.Pair;
+import ru.bmstu.hadoop.labs.Messages.GetFromCache;
+import ru.bmstu.hadoop.labs.Messages.PutToCache;
 
 import static ru.bmstu.hadoop.labs.Constants.*;
 

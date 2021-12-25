@@ -1,4 +1,4 @@
-package ru.bmstu.hadoop.labs;
+package ru.bmstu.hadoop.labs.Messages;
 
 public class GetFromCache {
     private final String url;
