@@ -7,14 +7,14 @@ import java.util.HashMap;
 import java.util.Map;
 
 import akka.japi.Pair;
-import ru.bmstu.hadoop.labs.Messages.GetFromCache;
-import ru.bmstu.hadoop.labs.Messages.PutToCache;
+import ru.bmstu.hadoop.labs.messages.GetFromCache;
+import ru.bmstu.hadoop.labs.messages.PutToCache;
 
 import static ru.bmstu.hadoop.labs.Constants.*;
 
 public class CacheActor extends AbstractActor {
     Map<String, Pair<Integer, Float>> store = new HashMap<>();
-    
+
     @Override
     public Receive createReceive() {
         return ReceiveBuilder.create()
