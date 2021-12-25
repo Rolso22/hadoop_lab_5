@@ -4,6 +4,8 @@ import akka.actor.AbstractActor;
 import akka.actor.ActorRef;
 import akka.japi.pf.ReceiveBuilder;
 import java.util.HashMap;
+import java.util.Map;
+
 import akka.japi.Pair;
 import ru.bmstu.hadoop.labs.Messages.GetFromCache;
 import ru.bmstu.hadoop.labs.Messages.PutToCache;
@@ -11,8 +13,8 @@ import ru.bmstu.hadoop.labs.Messages.PutToCache;
 import static ru.bmstu.hadoop.labs.Constants.*;
 
 public class CacheActor extends AbstractActor {
-    HashMap<String, Pair<Integer, Float>> store = new HashMap<>();
-
+    Map<String, Pair<Integer, Float>> store = new HashMap<>();
+    
     @Override
     public Receive createReceive() {
         return ReceiveBuilder.create()
